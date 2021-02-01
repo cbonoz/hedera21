@@ -1,0 +1,16 @@
+{
+  "name": "vocalcoin-server",
+  "version": "1.0.0",
+  "description": "Vocalcoin server and token generation code. Currently on Hedera testnet.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris Buonocore (cbonoz)",
+  "license": "MIT",
+  "dependencies": {
+    "@hashgraph/sdk": "^2.0.16",
+    "fastify": "^3.11.0"
+  }
+}
