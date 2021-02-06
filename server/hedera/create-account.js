@@ -25,9 +25,12 @@ async function createAccount() {
     }
   }
 
-  if (process.env.OPERATOR_KEY != null && process.env.OPERATOR_ID != null) {
-    const operatorKey = PrivateKey.fromString(process.env.OPERATOR_KEY);
-    const operatorId = AccountId.fromString(process.env.OPERATOR_ID);
+  if (
+    process.env.HEDERA_PRIVATE_KEY != null &&
+    process.env.HEDERA_ACCOUNT_ID != null
+  ) {
+    const operatorKey = PrivateKey.fromString(process.env.HEDERA_PRIVATE_KEY);
+    const operatorId = AccountId.fromString(process.env.HEDERA_ACCOUNT_ID);
 
     client.setOperator(operatorId, operatorKey);
   }
