@@ -76,6 +76,16 @@ Uses HTS topics, accounts, and balances. Topics broadcast live polls using pub-s
 `/server/vocalcoin.js`: Generates the Vocalcoin token on the Hedera network using the Hedera Token Service (HTS).
 `/web`: Vocalcoin client website. Run with testnet backend - `yarn; yarn start`
 
+
+* Creating the token. From the server folder run: `server/vocalcoin.js`
+
+Pass the account id and key on the front end.
+If successful, balance should be fetched
+Create the first topic
+Subscribe to it
+Listen to incoming votes
+Give a vote and receive vocal
+
 ## Useful links
 
 - https://hedera.com/blog/get-started-with-the-hedera-token-service-part-1
