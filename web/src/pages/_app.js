@@ -61,7 +61,7 @@ function App(props) {
             color="light"
             size="normal"
             logo={logo}
-            copyright="©2021 Vocalcoin"
+            copyright="©2021 Vocalcoin (Testnet)"
           />
         </>
       </Router>

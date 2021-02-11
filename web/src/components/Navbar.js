@@ -15,6 +15,7 @@ function Navbar(props) {
             <Link to="/">
               <img className="image" src={props.logo} alt="Logo" />
             </Link>
+            &nbsp; - Powered by Hedera Hashgraph
           </div>
           <div
             className={"navbar-burger burger" + (menuOpen ? " is-active" : "")}

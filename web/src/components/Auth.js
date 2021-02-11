@@ -8,6 +8,7 @@ import "./Auth.scss";
 function Auth(props) {
   // State for all inputs
   const [email, setEmail] = useState("");
+  const [account, setAccount] = useState("");
   const [pass, setPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
 
@@ -43,7 +44,7 @@ function Auth(props) {
     if (isEmpty(pass)) {
       errors.push({
         field: "pass",
-        message: "Please enter a password",
+        message: "Please enter a key",
       });
     }
   }
@@ -74,7 +75,7 @@ function Auth(props) {
       // Otherwise call onSubmit with email/pass
       if (props.onSubmit) {
         props.onSubmit({
-          email,
+          email: email || account,
           pass,
         });
       }
@@ -93,13 +94,23 @@ function Auth(props) {
           handleSubmit();
         }}
       >
-        {["signup", "signin", "forgotpass"].includes(props.mode) && (
+        {/* {["signup", "signin", "forgotpass"].includes(props.mode) && (
           <FormField
             value={email}
             type="email"
             placeholder="Email"
             error={showErrors && getError("email")}
             onChange={(value) => setEmail(value)}
+          />
+        )} */}
+
+        {["signup", "signin", "changepass"].includes(props.mode) && (
+          <FormField
+            value={account}
+            type="text"
+            placeholder="account"
+            error={showErrors && getError("account")}
+            onChange={setAccount}
           />
         )}
 
@@ -149,12 +160,14 @@ function Auth(props) {
               </>
             )}
 
-            {/* {props.mode === "signin" && (
+            {props.mode === "signin" && (
               <>
-                <Link to="/signup">Create an account</Link>
-                <Link to="/forgotpass">Forgot password</Link>
+                <a href="https://portal.hedera.com/register" target="_blank">
+                  Create an account
+                </a>
+                {/* <Link to="/forgotpass">Forgot password</Link> */}
               </>
-            )} */}
+            )}
           </div>
         )}
       </form>

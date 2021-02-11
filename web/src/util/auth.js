@@ -40,9 +40,28 @@ export const useAuth = () => {
   return useContext(authContext);
 };
 
+const USER_KEY = "user_key";
+
+const getLastUser = () => {
+  const lastUser = localStorage.getItem(USER_KEY);
+  console.log("last_user", lastUser);
+  if (lastUser) {
+    try {
+      return JSON.parse(lastUser);
+    } catch (e) {
+      localStorage.setItem(USER_KEY, null);
+    }
+  }
+  return null;
+};
+
 // Provider hook that creates auth object and handles state
 function useProvideAuth() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(getLastUser());
+
+  useEffect(() => {
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }, [user]);
 
   const signin = (email, userKey) => {
     return fakeAuth.signin(email, userKey).then((user) => {
@@ -61,6 +80,7 @@ function useProvideAuth() {
   const signout = () => {
     return fakeAuth.signout().then(() => {
       setUser(false);
+      window.location.href = "/";
     });
   };
   // Fetch user on mount

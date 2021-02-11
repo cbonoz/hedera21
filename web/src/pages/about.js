@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ContentSection from "./../components/ContentSection";
-import TeamBiosSection from "./../components/TeamBiosSection";
-
+//
 import bulmaCollapsible from "@creativebulma/bulma-collapsible";
 
 const ITEMS = [
@@ -31,10 +30,20 @@ const ITEMS = [
     answer:
       "Each vote and issue that is created is recorded as a transaction on an immutable and hidden blockchain. This blockchain is immutable and will later serve as an auditable history of user activity on the platform. This data is stored on the Neo blockchain.",
   },
+  {
+    question: "Does Vocal work on the Hedera mainnet?",
+    answer:
+      "Vocal is usable on the Hedera testnet currently as thus does not cost live hbar to be used",
+  },
 ];
 
 function AboutPage(props) {
   const bulmaCollapsibleInstances = bulmaCollapsible.attach(".is-collapsible");
+
+  useEffect(() => {
+    // new bulmaCollapsible(bulmaCollapsibleInstances);
+    // bulmaCollapsibleInstances.bulmaCollapsible("collapse");
+  }, []);
 
   return (
     <>
@@ -42,7 +51,7 @@ function AboutPage(props) {
         color="primary"
         size="large"
         title="Powered by Hedera"
-        subtitle="Vocalcoin is a currency with rapid transaction times, distributed governance, and an open source model"
+        subtitle="Vocalcoin is a currency with rapid transaction times, distributed governance, and an open source model."
       />
 
       <br />

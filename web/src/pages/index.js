@@ -28,7 +28,7 @@ function IndexPage(props) {
         image={logo}
         background={logo}
         buttonOnClick={() => {
-          router.push("/login");
+          router.push("/signin");
         }}
       />
       <FeaturesSection

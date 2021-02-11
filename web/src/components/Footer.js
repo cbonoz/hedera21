@@ -20,7 +20,7 @@ function Footer(props) {
             href="https://medium.com"
             rel="noopener noreferrer"
           >
-            Blog
+            {/* Blog */}
           </a>
         </div>
         <div className="social right"></div>
