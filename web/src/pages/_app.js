@@ -20,7 +20,7 @@ function App(props) {
     <ProvideAuth>
       <Router>
         <>
-          <Navbar color="white" spaced={true} logo={logo} />
+          <Navbar spaced={true} logo={logo} />
 
           <Switch>
             <Route exact path="/" component={IndexPage} />

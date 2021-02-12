@@ -7,7 +7,7 @@ function SigninPage(props) {
       color="white"
       size="large"
       title="Welcome to Vocal"
-      subtitle="Enter your Hedera key or user password to gain access to Vocal services."
+      subtitle="Enter your Hedera account details to gain access to Vocal services."
       buttonText="Sign in"
     />
   );

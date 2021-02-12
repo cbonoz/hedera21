@@ -1,25 +1,16 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import queryString from "query-string";
 
-/*
-    Handles authentication with fakeAuth, a library for prototyping ...
-    ... auth flows without need for a backend (everything is stored locally).
-
-    [CHANGING AUTH SERVICES]: You can switch to another auth service ...
-    ... like firebase, auth0, etc, by modifying the useProvideAuth() ...
-    ... function below. Simply swap out the fakeAuth.function() calls for the ...
-    ... correct ones for your given auth service.
-  */
-
-const fakeAuth = {
+// email can either be email or account id.
+const hederaSession = {
   signin: (email, key) => {
     return new Promise((resolve, reject) => {
-      resolve({ email, key });
+      resolve({ email, key, accountId: email });
     });
   },
   signup: (email, key) => {
     return new Promise((resolve, reject) => {
-      resolve({ email, key });
+      resolve({ email, key, accountId: email });
     });
   },
   signout: () => new Promise((resolve, reject) => resolve()), // no-op
@@ -64,21 +55,21 @@ function useProvideAuth() {
   }, [user]);
 
   const signin = (email, userKey) => {
-    return fakeAuth.signin(email, userKey).then((user) => {
+    return hederaSession.signin(email, userKey).then((user) => {
       setUser(user);
       return user;
     });
   };
 
   const signup = (email, userKey) => {
-    return fakeAuth.signup(email, userKey).then((user) => {
+    return hederaSession.signup(email, userKey).then((user) => {
       setUser(user);
       return user;
     });
   };
 
   const signout = () => {
-    return fakeAuth.signout().then(() => {
+    return hederaSession.signout().then(() => {
       setUser(false);
       window.location.href = "/";
     });

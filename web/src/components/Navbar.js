@@ -10,7 +10,7 @@ function Navbar(props) {
   return (
     <NavbarContainer spaced={props.spaced} color={props.color}>
       <div className="container">
-        <div className="navbar-brand">
+        <div className="navbar-brand is-dark is-black">
           <div className="navbar-item">
             <Link to="/">
               <img className="image" src={props.logo} alt="Logo" />

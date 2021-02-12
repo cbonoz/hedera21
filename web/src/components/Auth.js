@@ -31,10 +31,10 @@ function Auth(props) {
 
   // Add error if email empty
   if (["signin", "signup", "forgotpass"].includes(props.mode)) {
-    if (isEmpty(email)) {
+    if (isEmpty(email) && isEmpty(account)) {
       errors.push({
         field: "email",
-        message: "Please enter an email",
+        message: "Please enter an account or email",
       });
     }
   }
@@ -108,7 +108,7 @@ function Auth(props) {
           <FormField
             value={account}
             type="text"
-            placeholder="account"
+            placeholder="Account ID"
             error={showErrors && getError("account")}
             onChange={setAccount}
           />
@@ -118,7 +118,7 @@ function Auth(props) {
           <FormField
             value={pass}
             type="key"
-            placeholder="key"
+            placeholder="Account Key"
             error={showErrors && getError("pass")}
             onChange={(value) => setPass(value)}
           />

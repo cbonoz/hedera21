@@ -9,25 +9,30 @@ function HeroSection(props) {
     <div className="hero-image">
       <div className="container">
         <div className="columns is-vcentered is-desktop ">
-          <div className="column is-5-desktop has-text-centered-touch hero-height">
+          <div className="column is-12-desktop has-text-centered-touch hero-height">
             <SectionHeader
               title={props.title}
               subtitle={props.subtitle}
               size={1}
             />
-            <SectionButton
-              parentColor={props.color}
-              size="medium"
-              onClick={props.buttonOnClick}
-            >
-              {props.buttonText}
-            </SectionButton>
+            <div className="is-centered full-width">
+              <SectionButton
+                parentColor={props.color}
+                size="medium"
+                centered
+                onClick={props.buttonOnClick}
+              >
+                {props.buttonText}
+              </SectionButton>
+            </div>
           </div>
           <div className="column is-1" />
           <div className="column">
-            {/* <figure className="HeroSection__image image">
-              <img src={props.image} alt="Illustration" />
-            </figure> */}
+            {props.image && (
+              <figure className="HeroSection__image image">
+                <img src={props.image} alt="Illustration" />
+              </figure>
+            )}
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import cors from "cors";
 
 import { createServer } from "http";
 import { Server } from "socket.io";
+import bodyParser from "body-parser";
 
 import {
   HEDERA_PRIVATE_KEY,
@@ -29,6 +30,7 @@ import getBalance from "./hedera/get-balance.js";
 
 const { TextDecoder } = pkg;
 const app = express();
+app.use(bodyParser.json());
 app.use(cors());
 const httpServer = createServer(app);
 
@@ -43,7 +45,7 @@ const io = new Server(httpServer, {
 
 const log = handleLog;
 
-const specialChar = "ℏ";
+const specialChar = "|";
 var operatorAccount = "";
 var HederaClient = Client.forTestnet();
 var topicId = "";
@@ -63,7 +65,6 @@ async function init() {
   } else {
     await configureNewTopic(TOPIC_NAME);
   }
-  await getBalance(HederaClient, HEDERA_TEST_ACCOUNT);
   /* run & serve the express app */
   runVocal();
 }
@@ -71,6 +72,17 @@ async function init() {
 function runVocal() {
   console.log("runVocal");
   httpServer.listen(PORT);
+
+  app.post("/balance", async (req, res) => {
+    const { accountId } = req.body;
+    try {
+      const balance = await getBalance(HederaClient, accountId);
+      return res.json({ balance });
+    } catch (e) {
+      return res.json({ e });
+    }
+  });
+
   subscribeToMirror();
   io.on("connection", function (client) {
     console.log("connected", client.id);
@@ -78,10 +90,10 @@ function runVocal() {
       "connect message",
       operatorAccount + specialChar + client.id + specialChar + topicId
     );
-    client.on("vote", function (msg) {
-      const formattedMessage =
-        operatorAccount + specialChar + client.id + specialChar + msg;
-      sendHCSMessage(formattedMessage);
+    client.on("comment", function (msg) {
+      // const formattedMessage =
+      //   operatorAccount + specialChar + client.id + specialChar + msg;
+      sendHCSMessage(msg);
     });
     client.on("disconnect", function () {
       io.emit("disconnect message", operatorAccount + specialChar + client.id);
@@ -111,12 +123,12 @@ function subscribeToMirror() {
     new TopicMessageQuery()
       .setTopicId(topicId)
       .subscribe(HederaClient, (res) => {
-        log("Response from MirrorTopicQuery()", res, logStatus);
-        const message = new TextDecoder("utf-8").decode(res["message"]);
+        const message = Buffer.from(res.contents, "utf8").toString();
+        log("Response from MirrorTopicQuery()", message, logStatus);
         var runningHash = UInt8ToString(res["runningHash"]);
         var timestamp = secondsToDate(res["consensusTimestamp"]);
         io.emit(
-          "vote",
+          "receive",
           message +
             specialChar +
             res.sequenceNumber +

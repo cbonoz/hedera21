@@ -4,9 +4,10 @@ import FeaturesSection from "./../components/FeaturesSection";
 import { useRouter } from "./../util/router.js";
 
 import logo from "../assets/banner_10.png";
+import sideLogo from "../assets/vocal_trans_white.png";
 import { useAuth } from "../util/auth";
 
-const HEADER_SUBTITLE = `A distributed political currency. Turning votes into a tradeable digital asset`;
+const HEADER_SUBTITLE = `A distributed political currency. Turning votes into a tradeable digital asset.`;
 const FEATURE_DETAIL = `Vocal is a currency and economy for promoting social change and civic engagement. Turning voting and political involvement into a tradeable digital asset. You give a vote, in return you can use those votes to promote your own causes on the Vocalcoin network.`;
 
 function IndexPage(props) {
@@ -25,7 +26,7 @@ function IndexPage(props) {
         title="Vocalcoin"
         subtitle={HEADER_SUBTITLE}
         buttonText="Get Started"
-        image={logo}
+        image={null}
         background={logo}
         buttonOnClick={() => {
           router.push("/signin");
