@@ -17,8 +17,8 @@ Going after the following challenges:
 - Tokenization Protocol Challenge - Sponsored by University College London.
 
 Built on Hedera using HTS which reduced the complexity in deploying the Vocalcoin contract without requiring deploying a smart contract manually.
-
-Uses HTS topics, accounts, and balances. Topics broadcast live polls using pub-sub.
+ 
+Uses HTS topics, subscriptions, accounts, balances, and transfers. Topics broadcast live polls using pub-sub.
 
 ### What Vocal Solves:
 
