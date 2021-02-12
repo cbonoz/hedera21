@@ -121,7 +121,7 @@ function DashboardPage(props) {
     : `${balance} VOCAL (${VOCAL_TOKEN_ID})`;
 
   return (
-    <div className="container">
+    <div className="container dashboard-section">
       <hr />
       <p>User: {user.email}</p>
       <p>Key: {`${(user.key || "").substring(0, 4)}***`}</p>

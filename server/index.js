@@ -133,7 +133,8 @@ async function reward(amount, accountId, key) {
       ).execute(client)
     ).getReceipt(client);
   } catch (e) {
-    console.error("error associating", e, accountId);
+    // If already associated, swallow error for now (but we need to ensure any address is already associated).
+    // console.error("error associating", e, accountId);
   }
 
   await (
