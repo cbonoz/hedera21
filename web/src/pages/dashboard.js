@@ -48,7 +48,7 @@ function DashboardPage(props) {
         const newBalance =
           (result && result.balance && result.balance[VOCAL_TOKEN_ID]) || 0;
         console.log(result, newBalance);
-        setBalance(newBalance);
+        setBalance(parseFloat(newBalance));
       }
     }
     fetchBalance();
