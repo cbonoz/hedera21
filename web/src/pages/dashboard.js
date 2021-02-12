@@ -38,19 +38,28 @@ function DashboardPage(props) {
   const [topicId, setTopicId] = useState("");
   const [message, setMessage] = useState();
   const [balance, setBalance] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [activePoll, setActivePoll] = useState({});
 
-  useEffect(() => {
-    async function fetchBalance() {
-      if (user.accountId) {
+  async function fetchBalance() {
+    if (user.accountId) {
+      setLoading(true);
+      try {
         const response = await getBalance(user.accountId);
         const result = response.data;
         const newBalance =
           (result && result.balance && result.balance[VOCAL_TOKEN_ID]) || 0;
         console.log(result, newBalance);
         setBalance(parseFloat(newBalance));
+      } catch (e) {
+        console.error("error getting balance", e);
+      } finally {
+        setLoading(false);
       }
     }
+  }
+
+  useEffect(() => {
     fetchBalance();
   }, []);
 
@@ -81,7 +90,7 @@ function DashboardPage(props) {
         newMessage,
       ];
       setPolls(newPolls);
-      setBalance(balance + 10);
+      fetchBalance();
     });
   }, []);
 
@@ -93,22 +102,30 @@ function DashboardPage(props) {
   //   }
   // }, [auth, router]);
 
-  const broadcast = () => {
-    const data = JSON.stringify({ topicId, message });
+  const broadcastMessage = () => {
+    const data = JSON.stringify({
+      message,
+      topicId,
+      accountId: user.accountId,
+      key: user.key,
+    });
     console.log("broadcast", data);
     socket.emit("comment", data);
   };
+  const broadcastPoll = () => {
+    alert("coming soon");
+  };
+
+  const balanceString = loading
+    ? `Loading...`
+    : `${balance} VOCAL (${VOCAL_TOKEN_ID})`;
 
   return (
     <div className="container">
       <hr />
       <p>User: {user.email}</p>
       <p>Key: {`${(user.key || "").substring(0, 4)}***`}</p>
-      {balance && (
-        <p>
-          Balance: {balance} VOCAL ({VOCAL_TOKEN_ID}){" "}
-        </p>
-      )}
+      <p>Balance: {balanceString}</p>
       <div className="columns content-area">
         <div className="column is-half">
           <Section color={props.color} size={props.size}>
@@ -139,7 +156,7 @@ function DashboardPage(props) {
                 onChange={setMessage}
               />
 
-              <button onClick={(e) => broadcast()}>Broadcast</button>
+              <button onClick={(e) => broadcastMessage()}>Broadcast</button>
 
               <p>
                 <b>OR</b>
@@ -173,7 +190,7 @@ function DashboardPage(props) {
                 }
               />
 
-              <button onClick={(e) => broadcast()}>Broadcast</button>
+              <button onClick={(e) => broadcastPoll()}>Broadcast</button>
             </div>
           </Section>
         </div>

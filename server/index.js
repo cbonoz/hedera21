@@ -10,6 +10,7 @@ import {
   HEDERA_PRIVATE_KEY,
   HEDERA_PUBLIC_KEY,
   HEDERA_TEST_ACCOUNT,
+  VOCAL_TOKEN_ID,
 } from "./credentials.js";
 
 /* hedera.js */
@@ -17,7 +18,11 @@ import {
 import {
   Client,
   TopicMessageSubmitTransaction,
+  TokenAssociateTransaction,
   TopicId,
+  PublicKey,
+  PrivateKey,
+  TransferTransaction,
   TopicCreateTransaction,
   TopicMessageQuery,
 } from "@hashgraph/sdk";
@@ -27,6 +32,7 @@ import { secondsToDate, handleLog, sleep, UInt8ToString } from "./utils.js";
 /* include other packages */
 import pkg from "text-encoding";
 import getBalance from "./hedera/get-balance.js";
+import createAccount from "./hedera/create-account.js";
 
 const { TextDecoder } = pkg;
 const app = express();
@@ -83,6 +89,16 @@ function runVocal() {
     }
   });
 
+  app.get("/create", async (req, res) => {
+    try {
+      const account = await createAccount(HederaClient);
+      return res.json(account);
+    } catch (e) {
+      console.error(e);
+      return res.json({ e });
+    }
+  });
+
   subscribeToMirror();
   io.on("connection", function (client) {
     console.log("connected", client.id);
@@ -103,15 +119,48 @@ function runVocal() {
 
 init(); // process arguments & handoff to runVocal()
 
+async function reward(amount, accountId, key) {
+  console.log("reward", amount, accountId, key);
+  const client = HederaClient;
+  try {
+    await (
+      await (
+        await new TokenAssociateTransaction()
+          .setAccountId(accountId)
+          .setTokenIds([VOCAL_TOKEN_ID])
+          .freezeWith(client)
+          .sign(PrivateKey.fromString(key))
+      ).execute(client)
+    ).getReceipt(client);
+  } catch (e) {
+    console.error("error associating", e, accountId);
+  }
+
+  await (
+    await new TransferTransaction()
+      .addTokenTransfer(VOCAL_TOKEN_ID, operatorAccount, -amount)
+      .addTokenTransfer(VOCAL_TOKEN_ID, accountId, amount)
+      .execute(HederaClient)
+  ).getReceipt(HederaClient);
+}
+
 /* helper hedera functions */
 /* have feedback, questions, etc.? please feel free to file an issue! */
-function sendHCSMessage(msg) {
+async function sendHCSMessage(payload) {
+  payload = JSON.parse(payload);
+  const message = payload.message;
+  if (!message) {
+    return;
+  }
+
   try {
     new TopicMessageSubmitTransaction()
       .setTopicId(topicId)
-      .setMessage(msg)
+      .setMessage(JSON.stringify({ message, topicId: payload.topicId }))
       .execute(HederaClient);
-    log("SubmitMessageTransaction()", msg, logStatus);
+    log("SubmitMessageTransaction()", message, logStatus);
+
+    await reward(10, payload.accountId, payload.key);
   } catch (error) {
     log("ERROR: SubmitMessageTransaction()", error, logStatus);
     process.exit(1);

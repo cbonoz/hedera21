@@ -3,51 +3,47 @@ import {
   PrivateKey,
   AccountCreateTransaction,
   Hbar,
+  TokenCreateTransaction,
+  TokenAssociateTransaction,
   AccountId,
 } from "@hashgraph/sdk";
+import { VOCAL_TOKEN_ID } from "../credentials.js";
 
-async function createAccount() {
-  let client;
-
-  if (process.env.HEDERA_NETWORK != null) {
-    switch (process.env.HEDERA_NETWORK) {
-      case "previewnet":
-        client = Client.forPreviewnet();
-        break;
-      default:
-        client = Client.forTestnet();
-    }
-  } else {
-    try {
-      client = await Client.fromConfigFile(process.env.CONFIG_FILE);
-    } catch (err) {
-      client = Client.forTestnet();
-    }
-  }
-
-  if (
-    process.env.HEDERA_PRIVATE_KEY != null &&
-    process.env.HEDERA_ACCOUNT_ID != null
-  ) {
-    const operatorKey = PrivateKey.fromString(process.env.HEDERA_PRIVATE_KEY);
-    const operatorId = AccountId.fromString(process.env.HEDERA_ACCOUNT_ID);
-
-    client.setOperator(operatorId, operatorKey);
-  }
-
+async function createAccount(client) {
   const newKey = PrivateKey.generate();
 
   console.log(`private key = ${newKey}`);
   console.log(`public key = ${newKey.publicKey}`);
 
-  const response = await new AccountCreateTransaction()
-    .setInitialBalance(new Hbar(10)) // 10 h
+  const resp = await new AccountCreateTransaction()
     .setKey(newKey.publicKey)
     .execute(client);
 
-  const receipt = await response.getReceipt(client);
+  const transactionReceipt = await resp.getReceipt(client);
+  const newAccountId = transactionReceipt.accountId;
 
-  console.log(`account id = ${receipt.accountId}`);
+  console.log(`account id = ${newAccountId}`);
+
+  await (
+    await (
+      await new TokenAssociateTransaction()
+        .setAccountId(newAccountId)
+        .setTokenIds([VOCAL_TOKEN_ID])
+        .freezeWith(client)
+        .sign(newKey)
+    ).execute(client)
+  ).getReceipt(client);
+  console.log(
+    `Associated account ${newAccountId} with token ${VOCAL_TOKEN_ID}`
+  );
+
+  const acc = {
+    accountId: newAccountId.toString(),
+    publicKey: newKey.publicKey.toString(),
+    privateKey: newKey.toString(),
+  };
+  console.log("acc", acc);
+  return acc;
 }
 
 export default createAccount;

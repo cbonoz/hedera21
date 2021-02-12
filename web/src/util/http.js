@@ -12,3 +12,7 @@ var axiosInstance = axios.create({
 export const getBalance = (accountId) => {
   return axiosInstance.post("/balance", { accountId });
 };
+
+export const createAccount = () => {
+  return axiosInstance.get("/create");
+};

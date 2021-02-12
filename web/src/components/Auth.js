@@ -3,6 +3,7 @@ import FormStatus from "./FormStatus";
 import FormField from "./FormField";
 import SectionButton from "./SectionButton";
 import { Link } from "./../util/router.js";
+import { createAccount } from "../util/http.js";
 import "./Auth.scss";
 
 function Auth(props) {
@@ -11,6 +12,7 @@ function Auth(props) {
   const [account, setAccount] = useState("");
   const [pass, setPass] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+  const [newAccount, setNewAccount] = useState(null);
 
   // Whether to show errors
   // We set to true if they submit and there are errors.
@@ -66,6 +68,17 @@ function Auth(props) {
     }
   }
 
+  async function createAcc(e) {
+    e.preventDefault();
+    try {
+      const response = await createAccount();
+      console.log(response.data);
+      setNewAccount(response.data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   // Handle form submission
   const handleSubmit = () => {
     // If field errors then show them
@@ -117,7 +130,7 @@ function Auth(props) {
         {["signup", "signin", "changepass"].includes(props.mode) && (
           <FormField
             value={pass}
-            type="key"
+            type="password"
             placeholder="Account Key"
             error={showErrors && getError("pass")}
             onChange={(value) => setPass(value)}
@@ -162,7 +175,11 @@ function Auth(props) {
 
             {props.mode === "signin" && (
               <>
-                <a href="https://portal.hedera.com/register" target="_blank">
+                <a
+                  href="https://portal.hedera.com/register"
+                  onClick={createAcc}
+                  target="_blank"
+                >
                   Create an account
                 </a>
                 {/* <Link to="/forgotpass">Forgot password</Link> */}
@@ -171,6 +188,17 @@ function Auth(props) {
           </div>
         )}
       </form>
+      {newAccount && (
+        <div>
+          <hr />
+          <p>Save this information, this is your new Vocal account: </p>
+          Account: {newAccount.accountId}
+          <br />
+          Public key: {newAccount.publicKey}
+          <br />
+          Private key: {newAccount.privateKey}
+        </div>
+      )}
     </div>
   );
 }
