@@ -17,17 +17,25 @@ Going after the following challenges:
 - Tokenization Protocol Challenge - Sponsored by University College London.
 
 Built on Hedera using HTS which reduced the complexity in deploying the Vocalcoin contract without requiring deploying a smart contract manually.
- 
+
 Uses HTS topics, subscriptions, accounts, balances, and transfers. Topics broadcast live polls using pub-sub.
 
 ### What Vocal Solves:
 
-- Engagement in politics is declining in younger demographics, engaging in political issues can seem intimidating, and sometimes not immediately accessible. Youth political engagement at all time low in 2019: https://chargerbulletin.com/youth-political-participation-at-an-all-time-low/
+- Engagement in politics is declining in younger demographics, engaging in political issues can seem intimidating, and sometimes not immediately accessible.
+- Engagement in politics is declining in younger demographics, engaging in political issues can seem intimidating, and sometimes not immediately accessible.
+
+* Youth political engagement at all time low in 2019: https://chargerbulletin.com/youth-political-participation-at-an-all-time-low/
+* https://en.wikipedia.org/wiki/Voter_turnout
+* https://www.politico.com/news/magazine/2020/02/19/knight-nonvoter-study-decoding-2020-election-wild-card-115796
+
+Though 2020 saw an increase in political participation with the election - let's improve this even more.
+
 - Often little transparency into others opinions and issues happening around me.
 - Vocal offers an immutable ledger of votes and issue creation (using the Neo blockchain) that serves as proof of when votes/issues were created.
 - Lack of a universal incentive system for political participation. We now propose/create that system through the use of Vocal coin - which can be redeemed for agenda promotion, issue creation (and other things to come) through a traceable currency.
 - No widely accessible platform for political engagement and discovery on a local / map scale.
-- Yelp-like platform enables map-search of active political issues. Quickly and easily find the issues that are most pertinent to you and your community, without having to sift through a huge world of political agendas and issues.
+- In the future, create a Yelp-like platform enables map-search of active political issues. Quickly and easily find the issues that are most pertinent to you and your community, without having to sift through a huge world of political agendas and issues.
 
 ### How it works:
 
