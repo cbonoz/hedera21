@@ -49,16 +49,19 @@ Though 2020 saw an increase in political participation with the election - let's
 ### Screenshots
 
 #### Creating a new account and associating the Vocal token
-* This account is rendered in the app and ready to accept token.
-<img width=800 src="./assets/associate.png"/>
+
+- This account is rendered in the app and ready to accept token.
+  <img width=600 src="./assets/associate.png"/>
 
 ### Discovering issues
-* Once authenticated with their account credentials, users can discover and vote on live topics.
-<img width=800 src="./assets/voting.png"/>
+
+- Once authenticated with their account credentials, users can discover and vote on live topics.
+  <img width=600 src="./assets/voting.png"/>
 
 #### Broadcasting an incoming vote.
-* Pushes to connected clients and rewards the user with a fixed reward of 10 vocal (could be made dynamic or decreasing over time to sustain the operator balance).
-<img width=800 src="./assets/reward.png"/>
+
+- Pushes to connected clients and rewards the user with a fixed reward of 10 vocal (could be made dynamic or decreasing over time to sustain the operator balance).
+  <img width=600 src="./assets/reward.png"/>
 
 ## Dev notes
 
