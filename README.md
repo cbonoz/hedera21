@@ -48,10 +48,10 @@ Though 2020 saw an increase in political participation with the election - let's
 
 ### Screenshots
 
-#### Creating a new account and associating the Vocal token
+#### Creating a new account and associating the Vocal token id.
 
-- This account is rendered in the app and ready to accept token.
-  <img width=600 src="./assets/associate.png"/>
+- This account is rendered in the app and ready to accept Vocal token.
+  <img width=400 src="./assets/associate.png"/>
 
 ### Discovering issues
 
@@ -61,7 +61,7 @@ Though 2020 saw an increase in political participation with the election - let's
 #### Broadcasting an incoming vote.
 
 - Pushes to connected clients and rewards the user with a fixed reward of 10 vocal (could be made dynamic or decreasing over time to sustain the operator balance).
-  <img width=600 src="./assets/reward.png"/>
+  <img width=400 src="./assets/reward.png"/>
 
 ## Dev notes
 
