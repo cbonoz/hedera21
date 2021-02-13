@@ -60,7 +60,7 @@ Though 2020 saw an increase in political participation with the election - let's
 
 #### Broadcasting an incoming vote.
 
-- Pushes to connected clients and rewards the user with a fixed reward of 10 vocal (could be made dynamic or decreasing over time to sustain the operator balance).
+- Pushes to connected clients and rewards the user with a fixed reward of 10 vocal. Future work would be to make this reward dynamic or decreasing over time to sustain the operator balance.
   <img width=400 src="./assets/reward.png"/>
 
 ## Dev notes
